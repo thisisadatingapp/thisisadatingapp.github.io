@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RRHEA — Help & Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1e0f04;
+  --bg2: #2c1505;
+  --card: #1a110a;
+  --border: rgba(180,140,90,0.18);
+  --gold: #c8a96e;
+  --gold-dim: rgba(200,169,110,0.3);
+  --gold-bright: #e0c080;
+  --text: #e8dfd0;
+  --muted: rgba(232,223,208,0.5);
+  --faint: rgba(232,223,208,0.2);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(30,15,4,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--gold);
+  letter-spacing: .06em;
+  text-decoration: none;
+}
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav-back:hover { color: var(--gold); }
+
+/* CONTENT */
+.support-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 32px 80px;
+}
+
+.support-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 2.4rem;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.support-subtitle {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .95rem;
+  color: var(--muted);
+  margin-bottom: 48px;
+}
+
+/* TOC */
+.toc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.toc-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  text-decoration: none;
+  transition: border-color .3s, background .3s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.toc-item:hover {
+  border-color: var(--gold-dim);
+  background: var(--bg2);
+}
+.toc-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.toc-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* SECTIONS */
+.support-section {
+  margin-bottom: 56px;
+}
+
+.section-header {
+  font-family: 'DM Mono', monospace;
+  font-size: .8rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-header-icon { font-size: 1rem; }
+
+/* ACCORDION */
+.accordion-item {
+  border-bottom: 1px solid var(--border);
+}
+.accordion-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 18px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+}
+.accordion-btn-label {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: .92rem;
+  color: var(--text);
+}
+.accordion-arrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .8rem;
+  color: var(--gold);
+  transition: transform .3s;
+  flex-shrink: 0;
+}
+.accordion-item.open .accordion-arrow {
+  transform: rotate(90deg);
+}
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, padding .3s ease;
+}
+.accordion-item.open .accordion-body {
+  max-height: 600px;
+  padding-bottom: 18px;
+}
+.accordion-body p {
+  font-size: .88rem;
+  color: rgba(232,223,208,0.78);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* CONTACT */
+.contact-bar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px;
+  text-align: center;
+  margin-top: 56px;
+}
+.contact-bar p {
+  font-size: .9rem;
+  color: rgba(232,223,208,0.78);
+  margin-bottom: 12px;
+}
+.contact-bar a {
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  font-size: .85rem;
+  letter-spacing: .06em;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: .06em;
+}
+.footer-tagline {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+.footer-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .3s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-copy {
+  text-align: right;
+  font-size: .65rem;
+  color: var(--faint);
+  letter-spacing: .04em;
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .support-container { padding: 100px 20px 60px; }
+  .support-title { font-size: 1.8rem; }
+  .toc { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr; text-align: center; }
+  .footer-links { justify-content: center; flex-wrap: wrap; }
+  .footer-copy { text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RRHEA</a>
+  <a href="index.html" class="nav-back">Back to Home</a>
+</nav>
+
+<div class="support-container">
+
+<h1 class="support-title">Help & Support</h1>
+<p class="support-subtitle">Everything you need to know about using RRHEA</p>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <a href="#guide" class="toc-item">
+    <span class="toc-icon">&#x1F4D6;</span>
+    <span class="toc-label">A Guide to RRHEA</span>
+  </a>
+  <a href="#troubleshooting" class="toc-item">
+    <span class="toc-icon">&#x1F527;</span>
+    <span class="toc-label">Troubleshooting</span>
+  </a>
+  <a href="#security" class="toc-item">
+    <span class="toc-icon">&#x1F512;</span>
+    <span class="toc-label">Security & Privacy</span>
+  </a>
+  <a href="#safety" class="toc-item">
+    <span class="toc-icon">&#x1F6E1;&#xFE0F;</span>
+    <span class="toc-label">Safety & Reporting</span>
+  </a>
+</div>
+
+<!-- A GUIDE TO RRHEA -->
+<div class="support-section" id="guide">
+  <div class="section-header">
+    <span class="section-header-icon">&#x1F4D6;</span> A Guide to RRHEA
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Welcome to RRHEA</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA (pronounced "rhee-uh") is the world's first dating app designed specifically for people who experience diarrhea and digestive challenges. We believe that shared experiences &mdash; even the uncomfortable ones &mdash; can be the foundation of genuine connection. Whether you're dealing with IBS, Crohn's disease, ulcerative colitis, food intolerances, or just a famously sensitive gut, you belong here.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Creating Your Account</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Sign up with your email and password, or use Sign in with Apple, Google, or Facebook for quick access. Your account is securely managed through Supabase Auth, and your profile data syncs across devices &mdash; log in on any iPhone and pick up right where you left off.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Setting Up Your Profile</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Your profile is your first impression. During onboarding you'll fill out your name, username, age, height (chosen from a dropdown picker), gender, and sexual orientation. Next, set your location &mdash; either tap "Detect Location" for automatic GPS detection, or enter a city name or zip code and tap "Look up." Use the max distance slider to control how far out your potential matches can be (5&ndash;500 miles). Write a bio, choose your severity level on the L0&ndash;L7 slider, and select your Gut Tags to flag any specific conditions you have. Finally, upload up to 6 photos; each photo goes through a crop tool before being added to your grid. Tap any photo to set it as your primary (profile) photo, or press and drag photos to reorder them &mdash; dropping a photo into the first slot automatically makes it your primary.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Gut Tags</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Gut Tags let you highlight the specific digestive conditions that apply to you. Available tags include IBS, Crohn's, Ulcerative Colitis, IBD, Lactose Intolerance, Gluten Intolerance, Celiac, Hemorrhoids, Diarrhea, Rrhea, Food Allergies, and Other. Select as many as apply &mdash; they appear on your profile card and help others find common ground before the first message.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Severity Levels Explained</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA uses an 8-tier severity scale (L0&ndash;L7) to help you find someone who truly understands your situation. L0 (Minimal) &mdash; barely noticeable, the occasional off day. L1 (Mild) &mdash; occasional sensitivity, mostly predictable. L2 (Moderate) &mdash; flare-ups a few times a week, bathroom awareness is part of your planning. L3 (Active) &mdash; daily management required, you've memorized every restroom on your commute. L4 (Serious) &mdash; significant impact on daily life, you navigate the world strategically. L5 (Severe) &mdash; constant vigilance, spontaneity requires serious planning. L6 (Extreme) &mdash; life-altering daily challenge, you need a partner who understands. L7 (Critical) &mdash; every day is a negotiation, you deserve someone who shows up fully. You can filter matches by severity level in the Discover tab.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Swiping & Matching</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>In the Discover tab, swipe right (or tap Like) to express interest, swipe left (or tap Pass) to pass. Tap Super to make an extra strong impression. Swipe up on a card &mdash; or tap anywhere on the photo &mdash; to open the full profile detail sheet, where you can browse all photos, read the bio, see Gut Tags, and still Pass or Like from within the sheet. Tap any photo to open it in the full-screen lightbox. When two people both like each other, it's a "Flushed." &mdash; you'll see the animated match screen with confetti. Tap "Send Message" to jump straight into the conversation, or "Keep Swiping" to continue discovering.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Filters</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Use the filter chips at the top of the Discover screen to narrow your matches. Tap a severity level chip to show only that level, tap the distance chip to open the distance modal and set a max range (5&ndash;500 miles), or tap the age chip to set a minimum and maximum age. Orientation-based filtering is automatic &mdash; RRHEA only shows profiles compatible with your stated sexual orientation. All filters can be combined freely, and clearing a filter chip restores the full pool.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Your Matches</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>All your mutual likes live in the Matches tab, split into two sub-tabs: "New Matches" (people you've matched with but haven't messaged yet) and "Chats" (active conversations). A badge on the Matches nav button and on the relevant sub-tab shows unread activity. Tap any match row to open the chat. Messages sync in real time through Supabase, so your conversations are always up to date.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Chatting with Matches</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Inside a chat you'll see icebreaker prompts at the top &mdash; tap any one to send it as your opening message. Use the emoji tray for quick reactions, or tap GIF to open the GIF panel where you can search by keyword or pick from digestive-themed presets. Long-press any message to leave an emoji reaction on it. Tap the "Profile" button in the chat header to view your match's full profile. All messages are stored securely in the cloud and persist across sessions and devices.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Premium</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA Premium ($9.99/month) unlocks exclusive features: Rewind lets you bring back a profile you accidentally passed on &mdash; tap the undo button in the upper-left corner of the Discover screen. See Who Likes You reveals all the profiles that have swiped right on you (non-subscribers see blurred previews). Incognito Mode lets you browse without appearing in other people's decks. Subscribe from the Premium tab in the bottom navigation bar.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Shop</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>The RRHEA Shop is accessible from the Discover screen and from Settings. Purchase a Profile Boost ($2.99) to move your profile to the top of the deck for 24 hours &mdash; a live countdown timer shows your remaining boost time. Buy 5 Super Likes ($2.99) to make an extra impression on the profiles you're most interested in. All purchases are processed through PayPal, recorded in your account, and persist across devices. You can also browse exclusive RRHEA merchandise through our Shopify store.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Settings</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Tap the Profile tab, then the settings gear to manage your account. You can update your phone number, email, and password under Account Settings, and toggle push and SMS notifications on or off. Access the Shop for boosts and super likes. Under Account Actions you can Pause your account (hides your profile without deleting any data) or Deactivate your account (permanently clears your profile and all matches). The Help &amp; Support link in Settings brings you here.</p></div>
+  </div>
+</div>
+
+<!-- TROUBLESHOOTING -->
+<div class="support-section" id="troubleshooting">
+  <div class="section-header">
+    <span class="section-header-icon">&#x1F527;</span> Troubleshooting
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">No Profiles Appearing in Discover</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Check your active filter chips &mdash; a combination of severity level, distance, and age filters may be leaving no matching profiles. Tap an active level chip to deselect it, open the distance modal and widen your range, or open the age modal and broaden the min/max. If no location has been detected, the distance filter cannot calculate ranges &mdash; try detecting your location or clearing the distance filter entirely.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Location Detection Not Working</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>GPS detection requires RRHEA to have location permission on your iPhone. If you tapped "Detect Location" and got an error, go to Settings &rarr; Privacy &amp; Security &rarr; Location Services and make sure RRHEA is set to "While Using." Alternatively, type your city name or zip code into the location field and tap "Look up" &mdash; this uses OpenStreetMap to find your coordinates without GPS.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Chat Messages Not Sending</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Confirm you have an active mutual match before opening chat &mdash; you can only message people who have liked you back. If the Send button is unresponsive, tap the message input field to give it focus, type your message, then tap Send. If the problem persists, check your internet connection, then tap the back arrow to return to the Matches tab and re-open the conversation.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">"Flushed." Sound Not Playing</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>The match sound plays when you get a new match. Make sure your iPhone's silent/mute switch is off and your volume is turned up. The sound plays once per match event.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Photos Not Uploading or Crop Modal Not Appearing</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA supports JPG, PNG, and WebP image formats, up to 6 photos per profile. When you tap an empty slot in the photo grid, you'll be asked to Take a Photo or Choose from Library. After selecting a photo, it goes through a content check and then opens in the crop modal. If you're not seeing the option to pick photos, make sure RRHEA has camera and photo library permissions in your iPhone Settings. In the crop modal, drag to reposition and use the zoom slider to adjust the framing before tapping "Apply Crop."</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Reordering Photos</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>To reorder your profile photos, press and hold a photo for about half a second until it lifts, then drag it to the desired position. Dropping a photo into the first slot automatically makes it your primary profile photo. If drag isn't working, make sure you're holding long enough before moving your finger.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Profile Changes Not Saving</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>After editing your profile, tap "Save Changes" at the bottom of the edit screen to apply your updates. Changes to your severity level or orientation will immediately refresh your Discover deck. Your profile is saved both locally and to the cloud via Supabase, so your changes will persist across sessions and devices.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">GIF Panel Not Loading GIFs</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>The GIF panel loads images from Giphy's CDN. If GIFs aren't appearing, check your internet connection. Try a different search term or tap one of the preset category buttons. If the panel itself won't open, tap the GIF button in the chat input bar and wait a moment for the panel to animate in.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Purchases Not Showing Up</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>All purchases (Boosts, Super Likes, and Premium) are recorded in your account and sync across devices. If a purchase isn't reflected after completing payment, close and reopen the app. Make sure you confirmed the purchase when prompted after returning from PayPal. If the issue persists, contact support.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">App Stuck on Loading Screen</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>If the app hangs on the RRHEA loading screen, try force-quitting the app and reopening it. If the problem persists, check your internet connection &mdash; the app needs to connect to Supabase on startup. As a last resort, delete and reinstall the app (your account data is saved in the cloud and will be restored when you log back in).</p></div>
+  </div>
+</div>
+
+<!-- SECURITY & PRIVACY -->
+<div class="support-section" id="security">
+  <div class="section-header">
+    <span class="section-header-icon">&#x1F512;</span> Security & Privacy
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Data Storage</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Your profile data &mdash; including your name, photos, bio, severity level, and preferences &mdash; is securely stored in the cloud using Supabase, a trusted open-source backend platform. This allows your data to sync across devices and persist between sessions. Local caching is used for performance, but the cloud database is the source of truth.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Account Security</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA supports secure account creation with email and password, as well as social login via Apple, Google, and Facebook through Supabase Auth. Passwords are securely hashed and never stored in plain text. You can change your password at any time from Settings. You can permanently delete your account and all associated data from Settings &rarr; Account Actions &rarr; Deactivate Account.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Photos & Images</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Photos you upload to RRHEA are processed through a content moderation check on your device before being accepted. Photos are stored in your profile and synced to the cloud so they appear across devices. We recommend using photos that you are comfortable sharing within a dating context and would not mind others seeing if they matched with you.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Location Data</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>If you use the GPS detection feature, your coordinates are used to calculate distances to other users and are stored in your profile. If you prefer not to share your GPS location, use the manual city/zip entry instead &mdash; this provides approximate coordinates only. Your location is visible to other users only as a city name, never as exact coordinates.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Sensitive Health Information</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Your digestive severity level and Gut Tags are considered sensitive health data. RRHEA treats this with the utmost discretion. All health-related data is encrypted in transit via HTTPS and stored securely in Supabase with row-level security policies. This data will never be sold or shared with third parties, advertisers, or health insurers.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Purchases & Payment Data</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>All purchases are processed through PayPal &mdash; RRHEA never sees or stores your payment card details. Purchase records (item type, amount, and date) are stored in your account to ensure your boosts, super likes, and premium subscription persist across devices. Merchandise purchases are handled through our Shopify store.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Third-Party Services</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA uses the following third-party services: Supabase for authentication, database, and real-time messaging; OpenStreetMap Nominatim API for location geocoding (city/zip lookup); Giphy CDN for GIF content in chat; PayPal for in-app purchases; and Shopify for merchandise sales. No personal information is transmitted in geocoding requests &mdash; only a city name or zip code.</p></div>
+  </div>
+</div>
+
+<!-- SAFETY & REPORTING -->
+<div class="support-section" id="safety">
+  <div class="section-header">
+    <span class="section-header-icon">&#x1F6E1;&#xFE0F;</span> Safety & Reporting
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Community Standards</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>RRHEA is built on the premise that everyone deserves to be treated with dignity and respect &mdash; especially when sharing something as personal as a health condition. We have zero tolerance for harassment, body shaming, mockery of health conditions, unsolicited explicit content, or any form of discrimination based on race, gender, sexuality, religion, or disability.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Content Moderation</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>All photos uploaded to RRHEA are automatically screened for prohibited content using on-device image analysis before they can be added to your profile. This helps keep the platform safe without compromising your privacy &mdash; the check happens entirely on your iPhone.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Safe Messaging Guidelines</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>When chatting with matches, protect yourself by not sharing personal information too quickly. Avoid sharing your home address, workplace, daily routine, or financial information with someone you have just matched with. Take time to get to know someone through conversation before agreeing to meet in person. Trust your instincts &mdash; if something feels off, it probably is.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Meeting in Person</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>If you decide to meet a RRHEA match in person, always meet in a public place for the first few encounters. Tell a trusted friend or family member where you are going and who you are meeting. Keep your phone charged. Consider sharing your location with someone you trust. Do not feel pressured to meet before you feel comfortable.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Reporting Inappropriate Behavior</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>If a match sends you inappropriate, threatening, or harassing messages, you can report them by long-pressing their message and tapping "Report." You can also report a profile from their profile card by tapping the menu. All reports are recorded in the database and reviewed. Accounts that accumulate multiple reports will be suspended or permanently banned.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Blocking Users</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>You can block any user at any time. Blocking a user will immediately remove them from your Discover deck and Matches list, and prevent them from seeing your profile or sending you messages. Blocks are recorded in your account and persist across devices.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Mental Health & Wellbeing</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>Living with a chronic digestive condition can be emotionally taxing. RRHEA is designed to be a supportive and understanding space, but it is not a substitute for professional mental health support. If you are struggling with the emotional impact of a digestive illness, please consider speaking with a healthcare provider or a mental health professional. Organizations like the Crohn's &amp; Colitis Foundation (crohnscolitisfoundation.org) and the IBS Network offer additional resources and community support.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn" onclick="toggleAccordion(this)">
+      <span class="accordion-btn-label">Emergency Situations</span>
+      <span class="accordion-arrow">&rarr;</span>
+    </button>
+    <div class="accordion-body"><p>If you believe you or someone else is in immediate danger, please contact your local emergency services (911 in the US) immediately. For non-emergency safety concerns within the app, contact us at <a href="mailto:support@rrhea-app.com">support@rrhea-app.com</a>.</p></div>
+  </div>
+</div>
+
+<!-- CONTACT BAR -->
+<div class="contact-bar">
+  <p>Still need help? We're here for you.</p>
+  <a href="mailto:support@rrhea-app.com">support@rrhea-app.com</a>
+</div>
+
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">RRHEA</div>
+    <div class="footer-tagline">Exclusively for the digestively challenged</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="privacy.html">Privacy Policy</a></li>
+    <li><a href="terms.html">Terms of Service</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="mailto:support@rrhea-app.com">Contact</a></li>
+  </ul>
+  <div class="footer-copy">
+    &copy; 2026 RRHEA. All rights reserved. Made with understanding.
+  </div>
+</footer>
+
+<script>
+function toggleAccordion(btn) {
+  const item = btn.parentElement;
+  const wasOpen = item.classList.contains('open');
+  // Close all in same section
+  item.closest('.support-section').querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+</script>
+
+</body>
+</html>
