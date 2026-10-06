@@ -457,7 +457,7 @@ footer {
       <span class="accordion-btn-label">Location Detection Not Working</span>
       <span class="accordion-arrow">&rarr;</span>
     </button>
-    <div class="accordion-body"><p>GPS detection requires RRHEA to have location permission on your iPhone. If you tapped "Detect Location" and got an error, go to Settings &rarr; Privacy &amp; Security &rarr; Location Services and make sure RRHEA is set to "While Using." Alternatively, type your city name or zip code into the location field and tap "Look up" &mdash; this uses OpenStreetMap to find your coordinates without GPS.</p></div>
+    <div class="accordion-body"><p>GPS detection requires RRHEA to have location permission on your iPhone. If you tapped "Detect Location" and got an error, go to Settings &rarr; Privacy &amp; Security &rarr; Location Services and make sure RRHEA is set to "While Using." Alternatively, type your city name or zip code into the location field and tap "Look up" &mdash; this finds your coordinates from the city or code alone, without GPS.</p></div>
   </div>
 
   <div class="accordion-item">
@@ -584,7 +584,7 @@ footer {
       <span class="accordion-btn-label">Third-Party Services</span>
       <span class="accordion-arrow">&rarr;</span>
     </button>
-    <div class="accordion-body"><p>RRHEA uses the following third-party services: Supabase for authentication, database, and real-time messaging; OpenStreetMap Nominatim API for location geocoding (city/zip lookup); Giphy CDN for GIF content in chat; Apple's App Store for in-app purchases; and Shopify for merchandise sales. No personal information is transmitted in geocoding requests &mdash; only a city name or zip code.</p></div>
+    <div class="accordion-body"><p>RRHEA uses the following third-party services: Supabase for authentication, database, and real-time messaging; Google Maps Platform for location lookup and date-spot suggestions, with OpenStreetMap Nominatim as a backup; Resend for account emails and safety reports; Giphy CDN for GIF content in chat; Apple's App Store for in-app purchases, plus Apple's push notification service; and Shopify for merchandise sales. Location lookups send only a city name or zip code, and date-spot suggestions send only an approximate midpoint and a dietary keyword &mdash; never your name or profile.</p></div>
   </div>
 </div>
 
